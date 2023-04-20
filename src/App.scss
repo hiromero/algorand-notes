@@ -1,0 +1,200 @@
+* {
+    box-sizing: border-box;
+    cursor: url('dist/cursor.png'), auto;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+    padding: 50px;
+    height: 100vh;
+    background-image: linear-gradient(rgba(#000000b6, 0.6), rgba(#00000088, 0.6)), url('dist/cork-board.jpg');
+    background-size: cover;
+
+}
+
+.loader {
+    display: block;
+    margin-top: 20px;
+}
+
+h1 {
+    color: white;
+    font-size: 20px;
+
+
+}
+
+h2 {
+    display: flex;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+}
+
+span {
+    display: block;
+    color: darken(white, 15%);
+    font-size: 15px;
+    margin-block: 10px;
+
+}
+
+.header-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 185px;
+
+    button:enabled {
+        width: 100%;
+        background-color: #e4a76b;
+        cursor: url('dist/pointer.png'), auto;
+        padding: 10px;
+        border: 10px;
+        outline: none;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        color: #000000;
+        font-weight: unset;
+        transition: .3s ease;
+
+        &:hover {
+
+            color: #ffffff;
+            transform: scale(1.05);
+            font-weight: bold;
+        }
+
+    }
+
+    button:disabled {
+        width: 100%;
+        background-color: rgb(228, 167, 107);
+        padding: 10px;
+        border: 10px;
+        outline: none;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        color: #000000;
+
+        &:hover {
+            cursor: url('dist/not-allowed.png'), auto;
+        }
+
+    }
+
+
+}
+
+.note-form {
+    display: flex;
+    flex-direction: column;
+    width: 185px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    textarea:enabled {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        border: 1px solid lightgrey;
+        min-width: 100%;
+        max-width: 100%;
+        height: 160px;
+        padding: 10px;
+        outline: none;
+        overflow-y: auto;
+
+
+    }
+
+    textarea:disabled {
+        font-family: Arial, Helvetica, sans-serif;
+        border: 1px solid rgb(255, 255, 255);
+        min-width: 100%;
+        max-width: 100%;
+        height: 175px;
+        padding: 10px;
+        outline: none;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        &:hover {
+            cursor: url('dist/not-allowed.png'), auto;
+        }
+    }
+
+    button:enabled {
+        width: 100%;
+        background-color: #ff88b1;
+        cursor: url('dist/pointer.png'), auto;
+        padding: 10px;
+        border: 0;
+        outline: none;
+        opacity: 0.7;
+        transition: .5s ease;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    button:disabled {
+        width: 100%;
+        background-color: #ff88b1;
+        padding: 10px;
+        border: 0;
+        outline: none;
+
+        &:hover {
+            cursor: url('dist/not-allowed.png'), auto;
+        }
+    }
+
+
+
+
+}
+
+.note {
+    position: absolute;
+    cursor: url('dist/grab.png'), auto;
+    background-image: url('dist/note.png');
+    background-size: cover;
+    top: 120px;
+    left: 300px;
+    height: 200px;
+    width: 200px;
+    padding: 20px;
+
+
+    .text {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        height: 100%;
+        width: 100%;
+        white-space: pre-wrap;
+        overflow-y: auto;
+        cursor: url('dist/grab.png'), auto;
+    }
+
+    .close {
+        width: 20px;
+        height: 15px;
+        position: absolute;
+        right: 15px;
+        transition: transform .4s ease;
+        cursor: url('dist/pointer.png');
+
+        &:hover {
+            transform: scale(1.4);
+            cursor: url('dist/pointer.png');
+        }
+    }
+
+
+}
