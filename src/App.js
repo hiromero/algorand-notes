@@ -73,10 +73,6 @@ export function App() {
 
       if (accounts.length) {
         setAccountAddress(accounts[0]);
-        peraWallet.getAccountName(accounts[0]).then((name) => {
-          setAccountName(name);
-          console.log(name)
-        });
         console.log(accounts[0])
       }
     })
@@ -96,7 +92,7 @@ export function App() {
       rotate: Math.floor(Math.random() * 20)
     }
     try{
-      await optInToApp();
+      await callCounterApplication("Add_Local");
     }
     catch(e){
       console.log(e);
@@ -109,7 +105,7 @@ export function App() {
 
   const deleteNote = async (note) => {
     try{
-      await optInToApp();
+      await callCounterApplication("Deduct_Local");
     }
     catch(e){
       console.log(e);
@@ -152,6 +148,41 @@ export function App() {
     const result = await waitForConfirmation(algod, txId, 2);
     
   }
+
+
+  async function callCounterApplication(action) {
+    try {
+      // get suggested params
+      setLoading(true)
+      const suggestedParams = await algod.getTransactionParams().do();
+      const appArgs = [new Uint8Array(Buffer.from(action))];
+
+      const actionTx = algosdk.makeApplicationNoOpTxn(
+        accountAddress,
+        suggestedParams,
+        appIndex,
+        appArgs
+      );
+
+      const actionTxGroup = [{ txn: actionTx, signers: [accountAddress] }];
+
+      const signedTx = await peraWallet.signTransaction([actionTxGroup]);
+      console.log(signedTx);
+      const { txId } = await algod.sendRawTransaction(signedTx).do();
+      const result = await waitForConfirmation(algod, txId, 2);
+      console.log(result);
+      if(result){
+        setLoading(false)
+      }
+      checkCounterState();
+      checkLocalCounterState();
+
+    } catch (e) {
+      console.error(`There was an error calling the counter app: ${e}`);
+      setLoading(false)
+    }
+  }
+
 
   return (
     <div className="app" onDragOver={dragOver}>
