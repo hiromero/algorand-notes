@@ -89,7 +89,7 @@ export function App() {
     const newNote = {
       id: uuid(),
       text: noteInput,
-      rotate: Math.floor(Math.random() * 20)
+      rotate: Math.floor(Math.random() * 30)
     }
     try{
       await callCounterApplication("Add_Local");
@@ -179,7 +179,7 @@ export function App() {
 
     } catch (e) {
       console.error(`There was an error calling the counter app: ${e}`);
-      setLoading(false)
+      setLoading(false);
     }
   }
 

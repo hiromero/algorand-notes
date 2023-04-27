@@ -12,7 +12,8 @@ body {
     padding: 50px;
     height: 100vh;
     background-image: linear-gradient(rgba(#000000b6, 0.6), rgba(#00000088, 0.6)), url('dist/cork-board.jpg');
-    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
 
 }
 
