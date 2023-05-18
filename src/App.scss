@@ -163,7 +163,6 @@ span {
 
 .note {
     position: absolute;
-    cursor: url('dist/grab.png'), auto;
     background-image: url('dist/note.png');
     background-size: cover;
     top: 120px;
@@ -181,6 +180,10 @@ span {
         white-space: pre-wrap;
         overflow-y: auto;
         cursor: url('dist/grab.png'), auto;
+
+        &:active {
+            cursor: url('dist/pointer.png'), auto;
+        }
     }
 
     .close {
@@ -191,10 +194,12 @@ span {
         transition: transform .4s ease;
         cursor: url('dist/pointer.png');
 
+
         &:hover {
+            cursor: url('dist/pointer.png'), auto;
             transform: scale(1.4);
-            cursor: url('dist/pointer.png');
         }
+
     }
 
 
