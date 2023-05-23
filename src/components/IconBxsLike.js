@@ -1,15 +1,11 @@
-
-import { PeraWalletConnect } from '@perawallet/connect';
 import React, { useEffect, useState } from "react";
-import useWallet from "../hooks/useWallet";
-const peraWallet = new PeraWalletConnect();
+
 
 function IconBxsLike({ props, likes, selfLike, noopLike }) {
 
 
-
-    const [liked, setLiked] = useState(false);
-    const [unLiked, setUnLiked] = useState(false);
+    const [liked, setLiked] = useState(null);
+    const [unLiked, setUnLiked] = useState(null);
 
     useEffect(() => {
         if (!!selfLike) {
@@ -23,7 +19,7 @@ function IconBxsLike({ props, likes, selfLike, noopLike }) {
                 setLiked(false);
             }
         }
-    }, [likes]);
+    }, [props, likes, selfLike]);
 
 
     const handleClick1 = async () => {

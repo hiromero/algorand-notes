@@ -1,12 +1,9 @@
 //import classNames from "classnames";
 import React, { useEffect, useReducer, useState } from 'react';
 import Loader from "react-spinners/ClockLoader";
-import { v4 as uuid } from 'uuid';
 
 //import WaveStatus from "./WaveStatus";
 
-
-import { WriteStatus } from "../hooks/useWallet";
 
 const override = {
     marginLeft: "8px",
@@ -191,9 +188,9 @@ export default function AlgoNote({
                 <textarea placeholder="Create a new note..."
                     value={noteInput}
                     onChange={event => setNoteInput(event.target.value)}
-                    disabled={!walletConnected}>
+                    disabled={!walletConnected && !optedIn}>
                 </textarea>
-                <button disabled={!walletConnected}>Add</button>
+                <button disabled={!walletConnected && !optedIn}>Add</button>
             </form>
 
             {notesState
@@ -203,7 +200,7 @@ export default function AlgoNote({
                     <div className="note"
                         style={{ transform: `rotate(${note.rotate}deg)` }}
                         onDragEnd={dropNote}
-                        draggable={walletConnected}
+                        draggable={walletConnected && optedIn}
                         key={`${note.key}-${note.rotate}`}>
 
                         <div onClick={() => { deleteNote(note) }}

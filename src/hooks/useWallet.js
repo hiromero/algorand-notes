@@ -32,7 +32,7 @@ export default function useWallet(peraWallet) {
     const [totalNotes, setTotalNotes] = useState(null);
     const [accountAddress, setAccountAddress] = useState(null);
     const [likes, setLikes] = useState(0);
-    const [selfLike, setSelfLike] = useState(false);
+    const [selfLike, setSelfLike] = useState(null);
     const networkName = useMemo(() => {
         if (!walletNetwork) {
             return "";
@@ -88,10 +88,10 @@ export default function useWallet(peraWallet) {
                     const todoList = appInfo['app-local-state']['key-value']
                     if (todoList.length > 0) {
                         const fetchNote = todoList.map(_ => ({ key: atob(_.key), value: _.value.uint }))
-                        setSelfLike(nanParser(fetchNote.find(_ => _.key === 'local_like')?.value) ?? false)
+                        setSelfLike(nanParser(fetchNote.find(_ => _.key === "local_like")?.value) > 0 ?? null)
                         setNoteList(fetchNote)
                         setTotalNotes(fetchNote.length)
-                        console.log(fetchNote)
+                        console.log(fetchNote.find(_ => _.key === "local_like")?.value)
                         console.log(selfLike)
                     } else {
                         setNoteList([])
