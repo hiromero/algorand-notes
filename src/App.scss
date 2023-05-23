@@ -8,6 +8,59 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+.review {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: #000000;
+
+    h1 {
+        font-size: 35px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: #ff88b1;
+
+        margin-bottom: -20px;
+
+
+        span {
+            user-select: none;
+            color: white;
+            font-size: 20px;
+        }
+
+        svg {
+            cursor: url('dist/pointer.png'), auto;
+            padding: 5px;
+        }
+
+
+    }
+
+    p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 10px;
+        font-size: 16px;
+        color: white;
+
+        span {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    }
+}
+
+
 .app {
     padding: 50px;
     height: 100vh;
@@ -170,6 +223,7 @@ span {
     height: 200px;
     width: 200px;
     padding: 20px;
+    z-index: 100;
 
 
     .text {

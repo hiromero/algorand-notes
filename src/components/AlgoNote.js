@@ -78,8 +78,8 @@ const notesReducer = (prevState, action) => {
 export default function AlgoNote({
     walletInstalled,
     walletConnected,
-    loading,
     noteList,
+    loading,
     writeLoading,
     totalWaves,
     onTodoAction,
@@ -198,6 +198,7 @@ export default function AlgoNote({
 
             {notesState
                 .notes
+                .filter(note => note.key !== 'local_like')
                 .map(note => (
                     <div className="note"
                         style={{ transform: `rotate(${note.rotate}deg)` }}

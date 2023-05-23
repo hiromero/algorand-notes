@@ -1,14 +1,12 @@
 import { PeraWalletConnect } from '@perawallet/connect';
 import algosdk, { waitForConfirmation } from 'algosdk';
-import React, { useEffect, useReducer, useState } from 'react';
-import Loader from "react-spinners/ClockLoader";
-import { v4 as uuid } from 'uuid';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import AlgoNote from "./components/AlgoNote";
+import Review from './components/Review';
 import Wallet from "./components/Wallet";
 
 import useWallet from "./hooks/useWallet";
-
 
 // Create the PeraWalletConnect instance outside the component
 const peraWallet = new PeraWalletConnect();
@@ -17,10 +15,8 @@ const peraWallet = new PeraWalletConnect();
 const appIndex = 166234659;
 //const appIndex = 211358949;
 
-
 // connect to the algorand node
 const algod = new algosdk.Algodv2('', 'https://testnet-api.algonode.cloud', 443);
-
 
 export function App() {
   const {
@@ -31,10 +27,14 @@ export function App() {
     accountAddress,
     writeLoading,
     noteList,
+    loading,
+    likes,
+    selfLike,
     totalNotes,
     optIn,
     optedIn,
     onTodoAction,
+    noopLike,
     handleDisconnectWalletClick,
   } = useWallet(peraWallet);
 
@@ -42,8 +42,6 @@ export function App() {
   const [currentCount, setCurrentCount] = useState(null);
   const [localCount, setLocalCount] = useState(null);
   const isConnectedToPeraWallet = !!accountAddress;
-  const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     checkCounterState();
     checkLocalCounterState();
@@ -70,41 +68,6 @@ export function App() {
 
 
 
-
-  async function callCounterApplication(action) {
-    try {
-      // get suggested params
-      setLoading(true)
-      const suggestedParams = await algod.getTransactionParams().do();
-      const appArgs = [new Uint8Array(Buffer.from(action))];
-
-      const actionTx = algosdk.makeApplicationNoOpTxn(
-        accountAddress,
-        suggestedParams,
-        appIndex,
-        appArgs
-      );
-
-      const actionTxGroup = [{ txn: actionTx, signers: [accountAddress] }];
-
-      const signedTx = await peraWallet.signTransaction([actionTxGroup]);
-      console.log(signedTx);
-      const { txId } = await algod.sendRawTransaction(signedTx).do();
-      const result = await waitForConfirmation(algod, txId, 2);
-      console.log(result);
-      if (result) {
-        setLoading(false)
-      }
-      checkCounterState();
-      checkLocalCounterState();
-
-    } catch (e) {
-      console.error(`There was an error calling the counter app: ${e}`);
-      setLoading(false);
-    }
-  }
-
-
   return (
     <div className="app" onDragOver={dragOver}>
       <Wallet
@@ -128,29 +91,13 @@ export function App() {
         optedIn={optedIn}
         noteList={noteList}
       />
-
-      {/* {notesState
-        .notes
-        .map(note => (
-          <div className="note"
-            style={{ transform: `rotate(${note.rotate}deg)` }}
-            onDragEnd={dropNote}
-            draggable={walletConnected}
-            key={note.id}>
-
-            <div onClick={() => { deleteNote(note) }}
-              className="close">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <pre className="text">{note.text}</pre>
-          </div>
-        ))
-      } */}
+      <Review
+        likes={likes}
+        noopLike={noopLike}
+        selfLike={selfLike}
+      />
     </div>
   );
-
 
   async function checkCounterState() {
     try {
