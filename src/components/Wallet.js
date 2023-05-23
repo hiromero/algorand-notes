@@ -9,14 +9,15 @@ export default function Wallet({
     optedIn,
     optIn,
     connectWallet,
-    handleDisconnectWalletClick
+    handleDisconnectWalletClick,
+    totalNotes
 }) {
 
 
     return (
         <div className="buttonGroup justifyCenter fading">
             <h1>
-                Algorand Notes (0/16)
+                Algorand Notes ({totalNotes - 1}/14)
                 {/* <span>{notesState.notes.length ? `Last note created: ${notesState.lastNoteCreated}` : ' '}</span> */}
                 <span> Account Address: {walletConnected ? accountAddress : "(Not Connected)"} </span>
             </h1>

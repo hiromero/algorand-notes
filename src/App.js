@@ -72,6 +72,7 @@ export function App() {
     <div className="app" onDragOver={dragOver}>
       <Wallet
         handleDisconnectWalletClick={handleDisconnectWalletClick}
+        totalNotes={totalNotes}
         optedIn={optedIn}
         optIn={optIn}
         loading={loading}
