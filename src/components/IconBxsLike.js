@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-
 function IconBxsLike({ props, likes, selfLike, noopLike }) {
-
 
     const [liked, setLiked] = useState(null);
     const [unLiked, setUnLiked] = useState(null);
@@ -20,7 +18,6 @@ function IconBxsLike({ props, likes, selfLike, noopLike }) {
             }
         }
     }, [props, likes, selfLike]);
-
 
     const handleClick1 = async () => {
         await noopLike("Like");

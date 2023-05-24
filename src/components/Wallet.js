@@ -1,9 +1,6 @@
 import React from "react";
 
 export default function Wallet({
-    loading,
-    walletInstalled,
-    walletAccount,
     accountAddress,
     walletConnected,
     optedIn,
@@ -12,13 +9,10 @@ export default function Wallet({
     handleDisconnectWalletClick,
     totalNotes
 }) {
-
-
     return (
         <div className="buttonGroup justifyCenter fading">
             <h1>
-                Algorand Notes ({totalNotes - 1}/14)
-                {/* <span>{notesState.notes.length ? `Last note created: ${notesState.lastNoteCreated}` : ' '}</span> */}
+                Algorand Notes ({Math.max(totalNotes - 1, 0)}/14)
                 <span> Account Address: {walletConnected ? accountAddress : "(Not Connected)"} </span>
             </h1>
             <div className="header-buttons">
@@ -26,46 +20,12 @@ export default function Wallet({
                     walletConnected ? handleDisconnectWalletClick : connectWallet
                 }> {walletConnected ? "Disconnect" : "Connect to Pera Wallet"}
                 </button>
-
-
                 {walletConnected && !optedIn && (
                     <button onClick={optIn}>
                         Register
                     </button>
                 )}
             </div>
-
-            {/* 
-            {!walletConnected && (
-                <button onClick={connectWallet}>
-                    Connect Wallet
-                </button>
-            )}
-            {walletConnected && (
-                <div>
-                    <div>
-                        <span />
-                        Wallet Connected
-                    </div>
-                </div>
-            )}
-            {walletConnected && (
-                <button onClick={handleDisconnectWalletClick}>
-                    Disconnect Wallet
-                </button>
-            )}
-
-
-
-            <div>
-                <div>
-                    {walletConnected && !optedIn && (
-                        <button className="button buttonMetaMask" onClick={optIn}>
-                            Register
-                        </button>
-                    )}
-                </div>
-            </div> */}
         </div>
     );
 }

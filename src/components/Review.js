@@ -1,14 +1,7 @@
-import { PeraWalletConnect } from '@perawallet/connect';
 import React from 'react';
-import useWallet from "../hooks/useWallet";
 import IconBxsLike from './IconBxsLike';
-const peraWallet = new PeraWalletConnect();
-
 
 const Review = ({ likes, selfLike, noopLike }) => {
-
-
-
     return (
         <div className="review">
             <h1>

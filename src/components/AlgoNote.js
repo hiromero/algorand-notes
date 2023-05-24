@@ -1,9 +1,5 @@
-//import classNames from "classnames";
 import React, { useEffect, useReducer, useState } from 'react';
 import Loader from "react-spinners/ClockLoader";
-
-//import WaveStatus from "./WaveStatus";
-
 
 const override = {
     marginLeft: "8px",
@@ -19,13 +15,12 @@ const initialNotesState = {
     }],
 };
 
-
 const notesReducer = (prevState, action) => {
     switch (action.type) {
         case 'ADD_NOTE': {
             const newState = {
                 notes: [...prevState.notes, action.payload],
-                totalNotes: prevState.notes.length + 1,
+                totalNotes: prevState.notes.length,
                 lastNoteCreated: new Date().toTimeString().slice(0, 8),
             };
             console.log('After ADD_NOTE: ', newState);
@@ -39,7 +34,6 @@ const notesReducer = (prevState, action) => {
                 totalNotes: prevState.notes.length - 1,
             };
             console.log('After DELETE_NOTE: ', newState);
-
             return newState;
         }
 
@@ -55,7 +49,6 @@ const notesReducer = (prevState, action) => {
                     return note;
                 }
             });
-
             const newState = {
                 ...prevState,
                 notes: initializedNotes,
@@ -71,43 +64,22 @@ const notesReducer = (prevState, action) => {
     }
 };
 
-
 export default function AlgoNote({
-    walletInstalled,
     walletConnected,
     noteList,
     loading,
-    writeLoading,
-    totalWaves,
     onTodoAction,
     optedIn
 }) {
     const [notesState, dispatch] = useReducer(notesReducer, initialNotesState);
     const [noteInput, setNoteInput] = useState('');
-    const [message, setMessage] = useState("");
-    /* const disableInput = Boolean(writeLoading) || !optedIn;
-    const disableButtons =
-        !optedIn ||
-        !walletInstalled ||
-        !walletConnected ||
-        loading ||
-        writeLoading ||
-        message.length === 0;
-
-    useEffect(() => {
-        if (writeLoading === WriteStatus.None) {
-            setMessage("");
-        }
-    }, [writeLoading]); */
-
     useEffect(() => {
         fetchNoteList();
-    }, [noteList]);
+    }, [noteList, walletConnected]);
 
     const fetchNoteList = async () => {
         try {
             dispatch({ type: 'INITIALIZE_NOTES', payload: noteList });
-            console.log(noteList)
         } catch (error) {
             console.error('Error fetching noteList:', error);
         }
@@ -121,8 +93,6 @@ export default function AlgoNote({
         }
 
         const newNote = {
-            /* id: uuid(),
-            text: noteInput, */
             key: noteInput,
             value: 1,
             rotate: Math.floor(Math.random() * 30)
@@ -148,9 +118,7 @@ export default function AlgoNote({
         catch (e) {
             console.log(e);
         }
-        console.log(note)
     };
-
 
     const dropNote = event => {
         event.target.style.left = `${event.pageX - 50}px`;
@@ -159,31 +127,6 @@ export default function AlgoNote({
 
     return (
         <div>
-            {/* <div className="textWrapper">
-				<label htmlFor="message">Write your task below:</label>
-				<textarea
-					id="message"
-					className={classNames("textBox")}
-					disabled={disableInput}
-					value={message}
-					onChange={(ev) => setMessage(ev.target.value)}
-				/>
-			</div>
-			<section
-				className={classNames("buttonGroup", disableButtons && "disabled")}
-			>
-				<button className="button buttonWave" onClick={() => onTodoAction('create', message)}>
-					<span className="buttonEmoji" role="img" aria-label="Wave">
-						✍🏻
-					</span>
-					Create a task
-				</button>
-			</section>
-			<WaveStatus
-				loading={loading}
-				writeLoading={writeLoading}
-				totalWaves={totalWaves}
-			/> */}
             <form className="note-form" onSubmit={addNote}>
                 <textarea placeholder="Create a new note..."
                     value={noteInput}
@@ -192,7 +135,6 @@ export default function AlgoNote({
                 </textarea>
                 <button disabled={!walletConnected && !optedIn}>Add</button>
             </form>
-
             {notesState
                 .notes
                 .filter(note => note.key !== 'local_like')
@@ -220,9 +162,6 @@ export default function AlgoNote({
                 </div> :
                 <p> {null} </p>
             }
-
-
-
         </div>
     );
 }
