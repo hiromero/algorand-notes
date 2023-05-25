@@ -40,6 +40,7 @@ export default function useWallet(peraWallet) {
             setLoading(false);
         };
         runUpdates();
+        checkGlobalState()
     }, [setInstalled, setConnected, updateNotes, setLoading]);
 
     async function checkGlobalState() {
